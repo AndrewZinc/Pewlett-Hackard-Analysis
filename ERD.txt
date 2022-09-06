@@ -28,7 +28,7 @@ hire_date date
 
 Salaries
 --
-emp_no varchar pk FK >- Dept_Emp.emp_no
+emp_no int pk FK >- Dept_Emp.emp_no
 salary int
 from_date date
 to_date date
