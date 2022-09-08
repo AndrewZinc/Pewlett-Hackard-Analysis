@@ -52,3 +52,11 @@ CREATE TABLE titles(
 FOREIGN KEY (emp_no) REFERENCES employees (emp_no)
 );
 
+-- Create table for retiring employees
+select emp_no, first_name, last_name
+into retirement_info
+from employees
+where (birth_date between '1952-01-01' and '1955-12-31')
+and (hire_date between '1985-01-01' and '1988-12-31');
+
+select * from retirement_info;
