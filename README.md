@@ -149,6 +149,24 @@ The following query helps to provide this information:
 	order by "Employees" Desc;
 	```
 
-
 ![Retiring Employees by Department](Images/Retiring_Employees_by_Department.png)
 
+Another query provides information about the retiring roles in each department.
+
+	```
+	select count(ei.emp_no) as "Employees", d.dept_name, t.title
+	from emp_info as ei
+	left join titles as t
+		on (ei.emp_no = t.emp_no)
+	left join dept_emp as de
+		on (t.emp_no = de.emp_no)
+	inner join departments as d
+		on (de.dept_no = d.dept_no)
+	where (de.to_date = '9999-01-01') and (t.to_date = '9999-01-01')
+	group by d.dept_name, t.title
+	order by "Employees" DESC
+	```
+	
+This generates the following results which provide valuable information to the management team.
+	
+![Retiring Employees by Title and Department](Images/Retiring_Employees_by_Title_Department.png)
