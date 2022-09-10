@@ -35,18 +35,19 @@ The following queries were created:
 * Collect the retirement-eligible employee information into a single table
 	* The following query was written to perform this task and store the results into a new ```emp_info``` table.
 	
-```-- Employee list 1
-select e.emp_no, e.first_name, e.last_name, e.gender, s.salary, de.to_date
-	into emp_info
-	from employees as e
-	inner join salaries as s
-		on (e.emp_no = s.emp_no)
-	inner join dept_emp as de
-		on (e.emp_no = de.emp_no)
-	where (e.birth_date between '1952-01-01' and '1955-12-31')
-	and (e.hire_date between '1985-01-01' and '1988-12-31')
-	and (de.to_date = '9999-01-01');
-```
+		```
+		-- Employee list 1
+		select e.emp_no, e.first_name, e.last_name, e.gender, s.salary, de.to_date
+			into emp_info
+			from employees as e
+			inner join salaries as s
+				on (e.emp_no = s.emp_no)
+			inner join dept_emp as de
+				on (e.emp_no = de.emp_no)
+			where (e.birth_date between '1952-01-01' and '1955-12-31')
+			and (e.hire_date between '1985-01-01' and '1988-12-31')
+			and (de.to_date = '9999-01-01');
+		```
 
 	* This query returned a list of 33118 retirement-eligible current employees.
 	
@@ -54,21 +55,22 @@ select e.emp_no, e.first_name, e.last_name, e.gender, s.salary, de.to_date
 	* The following query was written to perform this task and store the results into a new ```manager_info``` table.
 
 
-```-- List (2) of managers per department
-select dm.dept_no,
-	d.dept_name,
-	dm.emp_no,
-	ce.last_name,
-	ce.first_name,
-	dm.from_date,
-	dm.to_date
-into manager_info
-from dept_manager as dm
-	inner join departments as d
-		on (dm.dept_no = d.dept_no)
-	inner join current_emp as ce
-		on (dm.emp_no = ce.emp_no);
-```
+		```
+		-- List (2) of managers per department
+		select dm.dept_no,
+			d.dept_name,
+			dm.emp_no,
+			ce.last_name,
+			ce.first_name,
+			dm.from_date,
+			dm.to_date
+		into manager_info
+		from dept_manager as dm
+			inner join departments as d
+				on (dm.dept_no = d.dept_no)
+			inner join current_emp as ce
+				on (dm.emp_no = ce.emp_no);
+		```
 
 	* This query returned a list of 5 retiring managers, but only two are current employees, as seen in the results below.
 	
@@ -78,13 +80,14 @@ from dept_manager as dm
 * Determine the number of retiring employees by title
 	* The following query was written to provide the number of roles that will be vacated by retiring employees.
 
-```-- Identify the number of retiring employees by title
-select count(title), title
-into retiring_titles
-from unique_titles
-group by title
-order by count(title) desc;
-```
+		```
+		-- Identify the number of retiring employees by title
+		select count(title), title
+		into retiring_titles
+		from unique_titles
+		group by title
+		order by count(title) desc;
+		```
 
 
 	* The query results provide a breakdown of the 33118 roles by title.
@@ -99,19 +102,20 @@ order by count(title) desc;
 	* The following query was written to provide the number of employees eligible to participate in a mentorship program.
 	
 	
-```--Identify the employees eligible for participation in a mentorship program
-select distinct on (e.emp_no) e.emp_no, e.first_name, e.last_name, e.birth_date,
-	de.from_date, de.to_date, t.title
-into mentorship_eligibility
-from employees as e
-join dept_emp as de
-	on (e.emp_no = de.emp_no)
-join titles as t
-	on (e.emp_no = t.emp_no)
-where (de.to_date = '9999-01-01') and
-	(e.birth_date between '1965-01-01' and '1965-12-31')
-order by e.emp_no;
-```
+		```
+		--Identify the employees eligible for participation in a mentorship program
+		select distinct on (e.emp_no) e.emp_no, e.first_name, e.last_name, e.birth_date,
+			de.from_date, de.to_date, t.title
+		into mentorship_eligibility
+		from employees as e
+		join dept_emp as de
+			on (e.emp_no = de.emp_no)
+		join titles as t
+			on (e.emp_no = t.emp_no)
+		where (de.to_date = '9999-01-01') and
+			(e.birth_date between '1965-01-01' and '1965-12-31')
+		order by e.emp_no;
+		```
 
 
 	* The query results were as follows:
@@ -132,20 +136,12 @@ Therefore, the company should better understand the impact to each department.  
 
 The following query helps to provide this information:
 
-```select count(emp_no) as "Employees", dept_name from dept_info
-group by dept_name
-order by "Employees" Desc;
-```
+	```
+	select count(emp_no) as "Employees", dept_name from dept_info
+	group by dept_name
+	order by "Employees" Desc;
+	```
 
 
 ![Retiring Employees by Department](Images/Retiring_Employees_by_Department.png)
-
-
-The analysis should contain the following:
-
-    Overview of the analysis: Explain the purpose of this analysis.
-    Results: Provide a bulleted list with four major points from the two analysis deliverables. Use images as support where needed.
-    Summary: Provide high-level responses to the following questions, then provide two additional queries or tables that may provide more insight into the upcoming "silver tsunami."
-        How many roles will need to be filled as the "silver tsunami" begins to make an impact?
-        Are there enough qualified, retirement-ready employees in the departments to mentor the next generation of Pewlett Hackard employees?
 
