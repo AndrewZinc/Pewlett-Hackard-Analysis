@@ -19,7 +19,7 @@ The following files were provided for input:
 ### Entity Relationship Diagram
 Using the CSV input files, an Entity Relationship Diagram was constructed to begin planning the database implementation. 
 
-![Entity Relationship Diagram](EmployeeDB.png)
+![Entity Relationship Diagram](Images/EmployeeDB.png)
 
 
 THe company selected the PostgreSQL database engine for their new system. Using PGAdmin4, a new database was created and the data tables were then built in accordance with the Entity Relationship Diagram.
@@ -34,6 +34,7 @@ The following queries were created:
 
 * Collect the retirement-eligible employee information into a single table
 	* The following query was written to perform this task and store the results into a new ```emp_info``` table.
+	
 ```
 -- Employee list 1
 select e.emp_no, e.first_name, e.last_name, e.gender, s.salary, de.to_date
@@ -47,10 +48,12 @@ select e.emp_no, e.first_name, e.last_name, e.gender, s.salary, de.to_date
 	and (e.hire_date between '1985-01-01' and '1988-12-31')
 	and (de.to_date = '9999-01-01');
 ```
+
 	* This query returned a list of 33118 retirement-eligible current employees.
 	
 * Determine the number of retirement-eligible managers per department
 	* The following query was written to perform this task and store the results into a new ```manager_info``` table.
+
 ```
 -- List (2) of managers per department
 select dm.dept_no,
@@ -69,11 +72,12 @@ from dept_manager as dm
 ```
 	* This query returned a list of 5 retiring managers, but only two are current employees, as seen in the results below.
 	
-![Retiring Managers by Department](Retiring_Managers_by_Department.png)
+![Retiring Managers by Department](Images/Retiring_Managers_by_Department.png)
 
 
 * Determine the number of retiring employees by title
 	* The following query was written to provide the number of roles that will be vacated by retiring employees.
+
 ```
 -- Identify the number of retiring employees by title
 select count(title), title
@@ -82,16 +86,18 @@ from unique_titles
 group by title
 order by count(title) desc;
 ```
+
 	* The query results provide a breakdown of the 33118 roles by title.
 	
-![Number of Retiring Employees by Title](Number_of_Retiring_Employees_by_Title-data.png)
+![Number of Retiring Employees by Title](Images/Number_of_Retiring_Employees_by_Title-data.png)
 
 	* The number of expected vacancies within the Senior Engineer and Senior Staff roles is much more apparent within a simple bar chart.
 
-![Number of Retiring Employees by Title Bar Chart](Number_of_Retiring_Employees_by_Title.png)
+![Number of Retiring Employees by Title Bar Chart](Images/Number_of_Retiring_Employees_by_Title.png)
 	
 * Determine the employees available to participate in a mentorship program
 	* The following query was written to provide the number of employees eligible to participate in a mentorship program.
+	
 ```
 --Identify the employees eligible for participation in a mentorship program
 select distinct on (e.emp_no) e.emp_no, e.first_name, e.last_name, e.birth_date,
@@ -106,16 +112,32 @@ where (de.to_date = '9999-01-01') and
 	(e.birth_date between '1965-01-01' and '1965-12-31')
 order by e.emp_no;
 ```
+
 	* The query results were as follows:
 
-![Mentorship-Eligible Employee Data](Eligible_for_Mentorship-data.png)
+![Mentorship-Eligible Employee Data](Images/Eligible_for_Mentorship-data.png)
 
-	* The majority of the eligible employees are in the Staff and Senior Engineer roles.
+	* The majority of the eligible employees are in the Staff and Senior Engineer roles, but there are nowhere near enough mentorship-eligible employees to provide leadership and training before they retire.
 
-![Mentorship-Eligible Employee](Eligible_for_Mentorship.png)
+![Mentorship-Eligible Employee](Images/Eligible_for_Mentorship.png)
 
 
+# Conclusions
+The company is likely going to experience a difficult period as a large number of senior employees retire out of the workforce.
 
+To prepare for this situation, the company has begun to evaluate the feasibility of a mentorship program to transition the knowledge and skills of the retiring employees into the next generation of leaders.  Unfortunately, the number of employees that would be eligible to participate in this program is a small fraction of the retiring population.
+
+Therefore, the company should better understand the impact to each department.  This could help to target management support and training in these departments with the largest retiring population.
+
+The following query helps to provide this information:
+
+```
+select count(emp_no) as "Employees", dept_name from dept_info
+group by dept_name
+order by "Employees" Desc;
+```
+
+![Retiring Employees by Department](Images/Retiring_Employees_by_Department.png)
 
 
 
