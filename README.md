@@ -74,12 +74,13 @@ The following queries were created:
 
 	* This query returned a list of 5 retiring managers, but only two are current employees, as seen in the results below.
 	
-![Retiring Managers by Department](Images/Retiring_Managers_by_Department.png)
+	![Retiring Managers by Department](Images/Retiring_Managers_by_Department.png)
 
 
 * Determine the number of retiring employees by title
 	* The following query was written to provide the number of roles that will be vacated by retiring employees.
 
+	
 		```
 		-- Identify the number of retiring employees by title
 		select count(title), title
@@ -89,14 +90,17 @@ The following queries were created:
 		order by count(title) desc;
 		```
 
-
 	* The query results provide a breakdown of the 33118 roles by title.
 	
-![Number of Retiring Employees by Title](Images/Number_of_Retiring_Employees_by_Title-data.png)
+	
+	![Number of Retiring Employees by Title](Images/Number_of_Retiring_Employees_by_Title-data.png)
 
+	
 	* The number of expected vacancies within the Senior Engineer and Senior Staff roles is much more apparent within a simple bar chart.
 
-![Number of Retiring Employees by Title Bar Chart](Images/Number_of_Retiring_Employees_by_Title.png)
+	
+	![Number of Retiring Employees by Title Bar Chart](Images/Number_of_Retiring_Employees_by_Title.png)
+	
 	
 * Determine the employees available to participate in a mentorship program
 	* The following query was written to provide the number of employees eligible to participate in a mentorship program.
@@ -120,11 +124,14 @@ The following queries were created:
 
 	* The query results were as follows:
 
-![Mentorship-Eligible Employee Data](Images/Eligible_for_Mentorship-data.png)
+	
+	![Mentorship-Eligible Employee Data](Images/Eligible_for_Mentorship-data.png)
 
+	
 	* The majority of the eligible employees are in the Staff and Senior Engineer roles, but there are nowhere near enough mentorship-eligible employees to provide leadership and training before they retire.
 
-![Mentorship-Eligible Employee](Images/Eligible_for_Mentorship.png)
+	
+	![Mentorship-Eligible Employee](Images/Eligible_for_Mentorship.png)
 
 
 # Conclusions
