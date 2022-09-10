@@ -35,8 +35,7 @@ The following queries were created:
 * Collect the retirement-eligible employee information into a single table
 	* The following query was written to perform this task and store the results into a new ```emp_info``` table.
 	
-```
--- Employee list 1
+```-- Employee list 1
 select e.emp_no, e.first_name, e.last_name, e.gender, s.salary, de.to_date
 	into emp_info
 	from employees as e
@@ -54,8 +53,8 @@ select e.emp_no, e.first_name, e.last_name, e.gender, s.salary, de.to_date
 * Determine the number of retirement-eligible managers per department
 	* The following query was written to perform this task and store the results into a new ```manager_info``` table.
 
-```
--- List (2) of managers per department
+
+```-- List (2) of managers per department
 select dm.dept_no,
 	d.dept_name,
 	dm.emp_no,
@@ -70,6 +69,8 @@ from dept_manager as dm
 	inner join current_emp as ce
 		on (dm.emp_no = ce.emp_no);
 ```
+
+		
 	* This query returned a list of 5 retiring managers, but only two are current employees, as seen in the results below.
 	
 ![Retiring Managers by Department](Images/Retiring_Managers_by_Department.png)
@@ -78,14 +79,14 @@ from dept_manager as dm
 * Determine the number of retiring employees by title
 	* The following query was written to provide the number of roles that will be vacated by retiring employees.
 
-```
--- Identify the number of retiring employees by title
+```-- Identify the number of retiring employees by title
 select count(title), title
 into retiring_titles
 from unique_titles
 group by title
 order by count(title) desc;
 ```
+
 
 	* The query results provide a breakdown of the 33118 roles by title.
 	
@@ -98,8 +99,7 @@ order by count(title) desc;
 * Determine the employees available to participate in a mentorship program
 	* The following query was written to provide the number of employees eligible to participate in a mentorship program.
 	
-```
---Identify the employees eligible for participation in a mentorship program
+```--Identify the employees eligible for participation in a mentorship program
 select distinct on (e.emp_no) e.emp_no, e.first_name, e.last_name, e.birth_date,
 	de.from_date, de.to_date, t.title
 into mentorship_eligibility
@@ -112,6 +112,7 @@ where (de.to_date = '9999-01-01') and
 	(e.birth_date between '1965-01-01' and '1965-12-31')
 order by e.emp_no;
 ```
+
 
 	* The query results were as follows:
 
@@ -131,11 +132,11 @@ Therefore, the company should better understand the impact to each department.  
 
 The following query helps to provide this information:
 
-```
-select count(emp_no) as "Employees", dept_name from dept_info
+```select count(emp_no) as "Employees", dept_name from dept_info
 group by dept_name
 order by "Employees" Desc;
 ```
+
 
 ![Retiring Employees by Department](Images/Retiring_Employees_by_Department.png)
 
